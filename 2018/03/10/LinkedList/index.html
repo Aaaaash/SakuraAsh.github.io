@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="链表 一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。链表中的数据是以结点来表示的，每个结点的构成：元素(数据元素的映象) + 指针(指示后继元素存储位置)，元素就是存储数据的存储单元，指针就是连接每个结点的地址数据  单项链表单项链表的基本结构12345678910111213141516171819class Node &amp;#123;  constructor(publi">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构之-链表">
+<meta property="og:url" content="https://github.com/SakuraAsh/2018/03/10/LinkedList/index.html">
+<meta property="og:site_name" content="SakuraAsh&#39;s blog">
+<meta property="og:description" content="链表 一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。链表中的数据是以结点来表示的，每个结点的构成：元素(数据元素的映象) + 指针(指示后继元素存储位置)，元素就是存储数据的存储单元，指针就是连接每个结点的地址数据  单项链表单项链表的基本结构12345678910111213141516171819class Node &amp;#123;  constructor(publi">
+<meta property="og:updated_time" content="2018-03-25T09:34:49.634Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构之-链表">
+<meta name="twitter:description" content="链表 一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。链表中的数据是以结点来表示的，每个结点的构成：元素(数据元素的映象) + 指针(指示后继元素存储位置)，元素就是存储数据的存储单元，指针就是连接每个结点的地址数据  单项链表单项链表的基本结构12345678910111213141516171819class Node &amp;#123;  constructor(publi">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>数据结构之-链表</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/10/BinarySearchTree/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/09/26/all-in-react/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/03/10/LinkedList/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&text=数据结构之-链表"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&is_video=false&description=数据结构之-链表"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据结构之-链表&body=Check out this article: https://github.com/SakuraAsh/2018/03/10/LinkedList/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&name=数据结构之-链表&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#链表"><span class="toc-number">1.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#单项链表"><span class="toc-number">1.1.</span> <span class="toc-text">单项链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#向链表尾部追加元素"><span class="toc-number">1.1.1.</span> <span class="toc-text">向链表尾部追加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从链表中移除元素"><span class="toc-number">1.1.2.</span> <span class="toc-text">从链表中移除元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在任意位置插入一个元素"><span class="toc-number">1.1.3.</span> <span class="toc-text">在任意位置插入一个元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他方法"><span class="toc-number">1.1.4.</span> <span class="toc-text">其他方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#toString-NaN"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">toString</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#indexOf"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">indexOf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#remove"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">remove</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#isEmpty-amp-amp-size-amp-amp-getHead"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">isEmpty &amp;&amp; size &amp;&amp; getHead</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向链表"><span class="toc-number">1.2.</span> <span class="toc-text">双向链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#任意位置插入新元素"><span class="toc-number">1.2.1.</span> <span class="toc-text">任意位置插入新元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从任意位置移除元素"><span class="toc-number">1.2.2.</span> <span class="toc-text">从任意位置移除元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环链表"><span class="toc-number">1.3.</span> <span class="toc-text">循环链表</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        数据结构之-链表
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SakuraAsh's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-10T09:31:11.000Z" itemprop="datePublished">2018-03-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/数据结构/">数据结构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h1><blockquote>
+<p>一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。链表中的数据是以结点来表示的，每个结点的构成：元素(数据元素的映象) + 指针(指示后继元素存储位置)，元素就是存储数据的存储单元，指针就是连接每个结点的地址数据</p>
+</blockquote>
+<h2 id="单项链表"><a href="#单项链表" class="headerlink" title="单项链表"></a>单项链表</h2><p>单项链表的基本结构<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Node &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> element = element, <span class="keyword">public</span> next = <span class="literal">null</span></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> LinkedList &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.length = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.head = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> append(element: <span class="built_in">any</span>) &#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> insert(position: <span class="built_in">number</span>, element: Node) &#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> removeAt(position: <span class="built_in">number</span>)&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> remove(element: Node)&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> indexOf(element: Node)&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> isEmpty(): <span class="built_in">boolean</span>&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> size(): <span class="built_in">number</span>&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> getHead(): Node&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> toString(): <span class="built_in">string</span> &#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> print() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="向链表尾部追加元素"><a href="#向链表尾部追加元素" class="headerlink" title="向链表尾部追加元素"></a>向链表尾部追加元素</h3><p>向链表对象尾部添加一个元素时,可能有两种场景: 列表空时,添加的是第一个元素,列表不为空时,向其追加元素<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略部分代码</span></span><br><span class="line"><span class="keyword">public</span> append(element: Node) &#123;</span><br><span class="line">  <span class="keyword">const</span> node = <span class="keyword">new</span> Node(element);</span><br><span class="line">  <span class="keyword">let</span> current;</span><br><span class="line">  <span class="comment">// 列表为空时添加为第一个元素</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.head === <span class="literal">null</span>) &#123;</span><br><span class="line">    head = node;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    current = <span class="keyword">this</span>.head;</span><br><span class="line">    <span class="keyword">while</span>(current.next) &#123;</span><br><span class="line">      current = current.next;</span><br><span class="line">    &#125;</span><br><span class="line">    current.next = node;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">this</span>.length += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 省略部分代码</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="从链表中移除元素"><a href="#从链表中移除元素" class="headerlink" title="从链表中移除元素"></a>从链表中移除元素</h3><p>移除元素也分两种场景: 移除第一个元素或移除第一个以外的任一元素<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略部分代码</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 移除指定位置的元素</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">public</span> removeAt(position: <span class="built_in">number</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (position &gt; <span class="number">-1</span> &amp;&amp; position &lt; length) &#123;</span><br><span class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.head;</span><br><span class="line">    <span class="keyword">let</span> previous;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 移除第一项</span></span><br><span class="line">    <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.head = current.next;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">while</span> (index++ &lt; position) &#123;</span><br><span class="line">        previous = current;</span><br><span class="line">        current = current.next;</span><br><span class="line">      &#125;</span><br><span class="line">      previous.next = current.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.length -= <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> current.element;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 省略部分代码</span></span><br></pre></td></tr></table></figure></p>
+<p>移除列表最后一项或中间某一项时, 需要依靠一个细节来迭代列表,直到到达目标位置,使用一个内部递增的<code>index</code>变量, <code>current</code>变量为所</p>
+<p>循环列表的当前元素进行引用,以及一个对当前元素的前一个元素引用的变量<code>previous</code></p>
+<p>从列表中删除当前元素,要做的就是将previous.next和current.next连接起来</p>
+<h3 id="在任意位置插入一个元素"><a href="#在任意位置插入一个元素" class="headerlink" title="在任意位置插入一个元素"></a>在任意位置插入一个元素</h3><p><code>insert</code>方法用于在任意位置插入一个元素<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> insert(position: <span class="built_in">number</span>, element: <span class="built_in">any</span>): <span class="built_in">boolean</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (position &gt;= <span class="number">0</span> &amp;&amp; position &lt;= <span class="keyword">this</span>.length) &#123;</span><br><span class="line">    <span class="keyword">const</span> node = <span class="keyword">new</span> Node(element);</span><br><span class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.head;</span><br><span class="line">    <span class="keyword">let</span> previous;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当position为0 则在第一个位置添加新元素</span></span><br><span class="line">    <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">      node.next = current;</span><br><span class="line">      head = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">while</span>(index++ &lt; position) &#123;</span><br><span class="line">        previous = current;</span><br><span class="line">        current = current.next;</span><br><span class="line">      &#125;</span><br><span class="line">      node.next = current;</span><br><span class="line">      previous.next = node;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.length += <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当插入位置为0时,先把新插入node的next设为当前head,再把head修改为node,就成功把新元素插入到了列表头部</p>
+<p>当插入位置在中间或尾部时,循环遍历列表,找到目标位置,在previous和current中间添加新元素,将新元素的next设为current,previous的next设为新元素,这样就成功在列表中间插入了新元素</p>
+<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><h4 id="toString-NaN"><a href="#toString-NaN" class="headerlink" title="toString"></a>toString</h4><p>toString方法需要将LinkedList对象转换成一个字符串<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> toString() &#123;</span><br><span class="line">  <span class="keyword">let</span> current = <span class="keyword">this</span>.head;</span><br><span class="line">  <span class="keyword">let</span> <span class="built_in">string</span> = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(current) &#123;</span><br><span class="line">    <span class="built_in">string</span> += current.element + (current.next ? <span class="string">'n'</span> : <span class="string">''</span>);</span><br><span class="line">    current = current.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf"></a>indexOf</h4><p>indexOf方法接受一个元素的值,如果在列表中找到它,就返回元素的位置,否则返回-1<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> indexOf(element: <span class="built_in">any</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> current = <span class="keyword">this</span>.head;</span><br><span class="line">  <span class="keyword">let</span> index = <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">while</span>(current) &#123;</span><br><span class="line">    <span class="keyword">if</span> (element === current.element) &#123;</span><br><span class="line">      <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line">    index += <span class="number">1</span>;</span><br><span class="line">    current = current.next;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="remove"><a href="#remove" class="headerlink" title="remove"></a>remove</h4><p>remove方法可以依赖indexOf方法先找到要移除元素的index,然后调用<code>this.removeAt</code>将index传进去从而删除元素<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> remove(element: <span class="built_in">any</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> index = <span class="keyword">this</span>.indexOf(element);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.removeAt(index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="isEmpty-amp-amp-size-amp-amp-getHead"><a href="#isEmpty-amp-amp-size-amp-amp-getHead" class="headerlink" title="isEmpty &amp;&amp; size &amp;&amp; getHead"></a>isEmpty &amp;&amp; size &amp;&amp; getHead</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> isEmpty() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.length === <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> size() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> getHead() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><p>双向链表与单项链表的区别是,双向链表有两个分别指向上一个元素以及下一个元素的链接</p>
+<p>因此,双向链表除了<code>head</code>属性外,还有一个表示尾部元素的<code>tail</code>属性</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> DoublyLinkedList &#123;</span><br><span class="line">  <span class="keyword">constructor</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.length = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.head = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">this</span>.tail = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>双向链表还提供了两种迭代列表的方法: 从头到尾以及从尾到头.我们也可以访问一个特定节点的下一个或上一个元素</p>
+<h3 id="任意位置插入新元素"><a href="#任意位置插入新元素" class="headerlink" title="任意位置插入新元素"></a>任意位置插入新元素</h3><p>双向链表插入操作和单项链表相似,唯一的区别是单项链表只需要维护一个next指针,而双向链表需要同时维护next和prev指针</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> insert(position: <span class="built_in">number</span>, element: <span class="built_in">any</span>): <span class="built_in">boolean</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (position &gt;= <span class="number">0</span> &amp;&amp; position &lt;= <span class="keyword">this</span>.length) &#123;</span><br><span class="line">    <span class="keyword">const</span> node = <span class="keyword">new</span> Node(element);</span><br><span class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.head;</span><br><span class="line">    <span class="keyword">let</span> previous;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!<span class="keyword">this</span>.head) &#123;</span><br><span class="line">        <span class="keyword">this</span>.head = node;</span><br><span class="line">        <span class="keyword">this</span>.tail = node;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        node.next = current;</span><br><span class="line">        current.prev = node;</span><br><span class="line">        <span class="keyword">this</span>.head = node;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (positon === length) &#123;</span><br><span class="line">      current = <span class="keyword">this</span>.tail;</span><br><span class="line">      current.next = node;</span><br><span class="line">      node.prev = current;</span><br><span class="line">      <span class="keyword">this</span>.tail = node;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      whild (index++ &lt; position) &#123;</span><br><span class="line">        previous = current;</span><br><span class="line">        current = current.next;</span><br><span class="line">      &#125;</span><br><span class="line">      node.next = current;</span><br><span class="line">      previous.next = node;</span><br><span class="line">      current.prev = node;</span><br><span class="line">      node.prev = previous;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.length += <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>头部插入,如果头部为null,则把head和tail都设为新元素. 如果头部已经存在,则把头部元素赋值给current,新元素的next设为current,current的prev设为新元素,同时把尾部指针设为新元素</li>
+<li>尾部插入, 将尾部元素赋值给current, current的next指向新元素,新元素的prev再指向current,最后把尾部指针指向新元素</li>
+<li>中间插入, 循环遍历列表,将当前元素赋值给previous,当前元素则改为current的next,再把新元素的next指向当前元素,previous的next指向新元素,最后把当前元素的prev指向新元素,新元素的prev指向previous</li>
+</ul>
+<h3 id="从任意位置移除元素"><a href="#从任意位置移除元素" class="headerlink" title="从任意位置移除元素"></a>从任意位置移除元素</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> removeAt(position: <span class="built_in">number</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (position &gt; <span class="number">-1</span> &amp;&amp; position &lt; <span class="keyword">this</span>.length) &#123;</span><br><span class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.head;</span><br><span class="line">    <span class="keyword">let</span> previous;</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (position === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.head = current.next;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.length === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.tail = <span class="literal">null</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.head.prev = <span class="literal">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (position === <span class="keyword">this</span>.length - <span class="number">1</span>) &#123;</span><br><span class="line">      current = <span class="keyword">this</span>.tail;</span><br><span class="line">      <span class="keyword">this</span>.tail = current.prev;</span><br><span class="line">      <span class="keyword">this</span>.tail.next = <span class="literal">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">while</span> (index++ &lt; position) &#123;</span><br><span class="line">        previous = current;</span><br><span class="line">        current = current.next;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      previous.next = current.next;</span><br><span class="line">      current.next.prev = previous;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.length -= <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> current.element;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样需要处理三种场景</p>
+<ul>
+<li>头部移除, 将当前头部赋值给current, 之后将头部设为current的next, 如果列表只有一项,则把tail设为null,否则将头部的prev设为null</li>
+<li>尾部移除, 将当前尾部赋值给current, 之后将尾部设为current的prev, 尾部的next设为null</li>
+<li>中间移除, 循环遍历列表, 将当前项赋值给previous, current修改为current的next, 最后将previous的next设为current的next, current的next的prev设为previous, 完成中间指定位置移除</li>
+</ul>
+<h2 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h2><p>循环链表可以像链表一样只有单向引用,也可以像双向链表一样有双向引用,循环链表和链表之间唯一的区别是,最后一个元素的next指针并不指向null,而是头部元素</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#链表"><span class="toc-number">1.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#单项链表"><span class="toc-number">1.1.</span> <span class="toc-text">单项链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#向链表尾部追加元素"><span class="toc-number">1.1.1.</span> <span class="toc-text">向链表尾部追加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从链表中移除元素"><span class="toc-number">1.1.2.</span> <span class="toc-text">从链表中移除元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在任意位置插入一个元素"><span class="toc-number">1.1.3.</span> <span class="toc-text">在任意位置插入一个元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他方法"><span class="toc-number">1.1.4.</span> <span class="toc-text">其他方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#toString-NaN"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">toString</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#indexOf"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">indexOf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#remove"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">remove</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#isEmpty-amp-amp-size-amp-amp-getHead"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">isEmpty &amp;&amp; size &amp;&amp; getHead</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向链表"><span class="toc-number">1.2.</span> <span class="toc-text">双向链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#任意位置插入新元素"><span class="toc-number">1.2.1.</span> <span class="toc-text">任意位置插入新元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从任意位置移除元素"><span class="toc-number">1.2.2.</span> <span class="toc-text">从任意位置移除元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环链表"><span class="toc-number">1.3.</span> <span class="toc-text">循环链表</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/03/10/LinkedList/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&text=数据结构之-链表"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&is_video=false&description=数据结构之-链表"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据结构之-链表&body=Check out this article: https://github.com/SakuraAsh/2018/03/10/LinkedList/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&title=数据结构之-链表"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/03/10/LinkedList/&name=数据结构之-链表&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 SakuraAsh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

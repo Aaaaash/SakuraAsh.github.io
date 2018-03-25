@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="操作系统进程和线程的区别 进程是资源的分配和调度的一个独立单元，而线程是CPU调度的基本单元 同一个进程中可以包括多个线程，并且线程共享整个进程的资源（寄存器、堆栈、上下文），一个进行至少包括一个线程。 进程的创建调用fork或者vfork，而线程的创建调用pthread_create，进程结束后它拥有的所有线程都将销毁，而线程的结束不会影响同个进程中的其他线程的结束 线程是轻量级的进程，它的创建">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试题整理">
+<meta property="og:url" content="https://github.com/SakuraAsh/2018/03/24/Interview-questions/index.html">
+<meta property="og:site_name" content="SakuraAsh&#39;s blog">
+<meta property="og:description" content="操作系统进程和线程的区别 进程是资源的分配和调度的一个独立单元，而线程是CPU调度的基本单元 同一个进程中可以包括多个线程，并且线程共享整个进程的资源（寄存器、堆栈、上下文），一个进行至少包括一个线程。 进程的创建调用fork或者vfork，而线程的创建调用pthread_create，进程结束后它拥有的所有线程都将销毁，而线程的结束不会影响同个进程中的其他线程的结束 线程是轻量级的进程，它的创建">
+<meta property="og:updated_time" content="2018-03-25T09:34:43.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试题整理">
+<meta name="twitter:description" content="操作系统进程和线程的区别 进程是资源的分配和调度的一个独立单元，而线程是CPU调度的基本单元 同一个进程中可以包括多个线程，并且线程共享整个进程的资源（寄存器、堆栈、上下文），一个进行至少包括一个线程。 进程的创建调用fork或者vfork，而线程的创建调用pthread_create，进程结束后它拥有的所有线程都将销毁，而线程的结束不会影响同个进程中的其他线程的结束 线程是轻量级的进程，它的创建">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>面试题整理</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/25/resume/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/03/10/BinarySearchTree/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/03/24/Interview-questions/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&text=面试题整理"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&is_video=false&description=面试题整理"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=面试题整理&body=Check out this article: https://github.com/SakuraAsh/2018/03/24/Interview-questions/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&name=面试题整理&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统"><span class="toc-number">1.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程和线程的区别"><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP"><span class="toc-number">2.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP是什么"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求报文"><span class="toc-number">2.2.</span> <span class="toc-text">请求报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#响应报文"><span class="toc-number">2.3.</span> <span class="toc-text">响应报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP方法"><span class="toc-number">2.4.</span> <span class="toc-text">HTTP方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP状态码"><span class="toc-number">2.5.</span> <span class="toc-text">HTTP状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1XX"><span class="toc-number">2.5.1.</span> <span class="toc-text">1XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2XX"><span class="toc-number">2.5.2.</span> <span class="toc-text">2XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3XX"><span class="toc-number">2.5.3.</span> <span class="toc-text">3XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4XX"><span class="toc-number">2.5.4.</span> <span class="toc-text">4XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5XX"><span class="toc-number">2.5.5.</span> <span class="toc-text">5XX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要有HTTPS"><span class="toc-number">2.6.</span> <span class="toc-text">为什么要有HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS如何加密的"><span class="toc-number">2.7.</span> <span class="toc-text">HTTPS如何加密的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript"><span class="toc-number">3.</span> <span class="toc-text">JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript是单线程还是多线程"><span class="toc-number">3.1.</span> <span class="toc-text">JavaScript是单线程还是多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么单线程的JavaScript可以实现异步"><span class="toc-number">3.2.</span> <span class="toc-text">为什么单线程的JavaScript可以实现异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.3.</span> <span class="toc-text">EventLoop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用C语言实现一个事件循环"><span class="toc-number">3.4.</span> <span class="toc-text">用C语言实现一个事件循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以下代码输入结果是什么-为什么"><span class="toc-number">3.5.</span> <span class="toc-text">以下代码输入结果是什么,为什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多个异步请求-如何使所有请求结束后才执行下一步"><span class="toc-number">3.6.</span> <span class="toc-text">多个异步请求,如何使所有请求结束后才执行下一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#React"><span class="toc-number">3.7.</span> <span class="toc-text">React</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#React生命周期函数有哪些"><span class="toc-number">3.7.1.</span> <span class="toc-text">React生命周期函数有哪些</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#React有几种组件"><span class="toc-number">3.7.2.</span> <span class="toc-text">React有几种组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高阶组件具体使用场景是什么-解决了什么问题"><span class="toc-number">3.7.3.</span> <span class="toc-text">高阶组件具体使用场景是什么,解决了什么问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setState是同步还是异步-为什么-调用后怎么拿到新的state"><span class="toc-number">3.7.4.</span> <span class="toc-text">setState是同步还是异步, 为什么,调用后怎么拿到新的state</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#父组件更新state后-子组件会不会rerender"><span class="toc-number">3.7.5.</span> <span class="toc-text">父组件更新state后,子组件会不会rerender</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么PureComponent不会引起子组件重渲染"><span class="toc-number">3.7.6.</span> <span class="toc-text">为什么PureComponent不会引起子组件重渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#谈谈对Redux的理解"><span class="toc-number">3.7.7.</span> <span class="toc-text">谈谈对Redux的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redux的State与React组件本身的State是否冲突"><span class="toc-number">3.7.8.</span> <span class="toc-text">Redux的State与React组件本身的State是否冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redux的中间件机制如何实现的"><span class="toc-number">3.7.9.</span> <span class="toc-text">Redux的中间件机制如何实现的</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法"><span class="toc-number">4.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法的时间复杂度是什么意思"><span class="toc-number">4.1.</span> <span class="toc-text">算法的时间复杂度是什么意思</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现冒泡排序-并说明其时间复杂度"><span class="toc-number">4.2.</span> <span class="toc-text">实现冒泡排序,并说明其时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现插入排序-并说明其时间复杂度"><span class="toc-number">4.3.</span> <span class="toc-text">实现插入排序,并说明其时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组扁平化"><span class="toc-number">4.4.</span> <span class="toc-text">数组扁平化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#翻转二叉树"><span class="toc-number">4.5.</span> <span class="toc-text">翻转二叉树</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        面试题整理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SakuraAsh's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-24T09:31:56.000Z" itemprop="datePublished">2018-03-24</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/面试/">面试</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程和线程的区别"><a href="#进程和线程的区别" class="headerlink" title="进程和线程的区别"></a>进程和线程的区别</h2><ul>
+<li>进程是资源的分配和调度的一个独立单元，而线程是CPU调度的基本单元</li>
+<li>同一个进程中可以包括多个线程，并且线程共享整个进程的资源（寄存器、堆栈、上下文），一个进行至少包括一个线程。</li>
+<li>进程的创建调用fork或者vfork，而线程的创建调用pthread_create，进程结束后它拥有的所有线程都将销毁，而线程的结束不会影响同个进程中的其他线程的结束</li>
+<li>线程是轻量级的进程，它的创建和销毁所需要的时间比进程小很多，所有操作系统中的执行功能都是创建线程去完成的</li>
+<li>线程中执行时一般都要进行同步和互斥，因为他们共享同一进程的所有资源</li>
+<li>线程有自己的私有属性TCB，线程id，寄存器、硬件上下文，而进程也有自己的私有属性进程控制块PCB，这些私有属性是不被共享的，用来标示一个进程或一个线程的标志</li>
+</ul>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="HTTP是什么"><a href="#HTTP是什么" class="headerlink" title="HTTP是什么"></a>HTTP是什么</h2><blockquote>
+<p>全称HyperText Transfer Protocol，超文本传输协议</p>
+</blockquote>
+<p>是一个客户端和服务器端请求和应答的标准（TCP）,属于应用层的通信协议</p>
+<h2 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h2><ul>
+<li><p>方法(GET,POST,PUT,DELETE等)</p>
+</li>
+<li><p>URI(统一资源标识符)</p>
+<blockquote>
+<p>URI表示资源是什么,URL表示资源的位置</p>
+</blockquote>
+</li>
+<li><p>HTTP协议版本</p>
+</li>
+<li><p>请求头部字段</p>
+<blockquote>
+<p>包含Host,Connection,Content-type,Content-length等</p>
+</blockquote>
+</li>
+<li><p>内容实体</p>
+</li>
+</ul>
+<h2 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h2><ul>
+<li><p>HTTP协议版本</p>
+</li>
+<li><p>状态码</p>
+</li>
+<li><p>状态码原因短语</p>
+</li>
+<li><p>响应头部</p>
+<blockquote>
+<p>包含Date,Content-type,Content-length等</p>
+</blockquote>
+</li>
+<li><p>内容主体</p>
+<blockquote>
+<p>HTML字符串,JSON及XML数据等</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="HTTP方法"><a href="#HTTP方法" class="headerlink" title="HTTP方法"></a>HTTP方法</h2><ul>
+<li><p>GET</p>
+<blockquote>
+<p>主要用于获取资源</p>
+<p>使用 GET 方法，浏览器会把 HTTP Header 和 Data 一并发送出去，服务器响应 200（OK）并返回数据</p>
+</blockquote>
+</li>
+<li><p>POST</p>
+<blockquote>
+<p>主要目的是传输存储在内容实体中的数据</p>
+<p>使用 POST 方法，浏览器先发送 Header，服务器响应 100（Continue）之后，浏览器再发送 Data，最后服务器响应 200（OK）并返回数据</p>
+</blockquote>
+</li>
+<li><p>HEAD</p>
+<blockquote>
+<p>获取报文首部</p>
+<p>不返回报文实体主体部分</p>
+<p>主要用于确认 URL 的有效性以及资源更新的日期时间等</p>
+</blockquote>
+</li>
+<li><p>PUT</p>
+<blockquote>
+<p>上传文件,不带验证机制</p>
+</blockquote>
+</li>
+<li><p>DELETE</p>
+<blockquote>
+<p>删除文件,同样不带验证机制</p>
+</blockquote>
+</li>
+<li><p>OPTIONS</p>
+<blockquote>
+<p>查询指定的 URL 能够支持的方法</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h2><blockquote>
+<p>服务器返回的 <strong>响应报文</strong> 中第一行为状态行，包含了状态码以及原因短语，用来告知客户端请求的结果。</p>
+</blockquote>
+<h3 id="1XX"><a href="#1XX" class="headerlink" title="1XX"></a>1XX</h3><p>表示接受的请求正在处理</p>
+<h3 id="2XX"><a href="#2XX" class="headerlink" title="2XX"></a>2XX</h3><ul>
+<li>200 ok</li>
+<li>204 No Content：请求已经成功处理，但是返回的响应报文不包含实体的主体部分。一般在只需要从客户端往服务器发送信息，而不需要返回数据时使用</li>
+<li>206 Partial Content: 表示客户端进行了范围请求。响应报文包含由 Content-Range 指定范围的实体内容</li>
+</ul>
+<h3 id="3XX"><a href="#3XX" class="headerlink" title="3XX"></a>3XX</h3><p>重定向</p>
+<ul>
+<li>301 Moved Permanently: 永久重定向</li>
+<li>302 Found: 临时重定向</li>
+</ul>
+<h3 id="4XX"><a href="#4XX" class="headerlink" title="4XX"></a>4XX</h3><p>客户端错误</p>
+<ul>
+<li>400 Bad Request: 请求报文中存在语法错误</li>
+<li>401 Unauthorized: 请求需要携带认证信息</li>
+<li>404 Not Found</li>
+</ul>
+<h3 id="5XX"><a href="#5XX" class="headerlink" title="5XX"></a>5XX</h3><p>服务器错误</p>
+<h2 id="为什么要有HTTPS"><a href="#为什么要有HTTPS" class="headerlink" title="为什么要有HTTPS"></a>为什么要有HTTPS</h2><p>HTTP有一些安全问题</p>
+<ul>
+<li>使用明文进行通信,内容有可能被抓包窃听</li>
+<li>不验证通信双方的身份,通信方身份可能遭遇伪装(电信劫持)</li>
+<li>无法验证报文的完整性,报文有可能被篡改</li>
+</ul>
+<blockquote>
+<p>HTTPs 并不是新协议，而是 HTTP 先和 SSL（Secure Socket Layer）通信，再由 SSL 和 TCP 通信。通过使用 SSL，HTTPs 提供了加密、认证和完整性保护</p>
+</blockquote>
+<h2 id="HTTPS如何加密的"><a href="#HTTPS如何加密的" class="headerlink" title="HTTPS如何加密的"></a>HTTPS如何加密的</h2><p>HTTPs 采用 <strong>混合的加密机制</strong> ，使用公开密钥加密用于传输对称密钥，之后使用对称密钥加密进行通信</p>
+<h1 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h1><h2 id="JavaScript是单线程还是多线程"><a href="#JavaScript是单线程还是多线程" class="headerlink" title="JavaScript是单线程还是多线程"></a>JavaScript是单线程还是多线程</h2><p>单线程,因为作为浏览器的脚本语言,JavaScript的主要用途是与用户互动,以及操作DOM.如果是多线程,一个线程添加了一个DOM节点,另一个线程删除了DOM节点,浏览器无法判断以哪个线程为主</p>
+<p>通过WebWorker标准可以简单模拟多线程操作,但子线程完全受主线程控制,且无法操作DOM,本质上还是单线程</p>
+<h2 id="为什么单线程的JavaScript可以实现异步"><a href="#为什么单线程的JavaScript可以实现异步" class="headerlink" title="为什么单线程的JavaScript可以实现异步"></a>为什么单线程的JavaScript可以实现异步</h2><p>单线程同步的情况下一些耗时较长的任务将会导致页面渲染阻塞甚至卡死,浏览器是多线程的,因此浏览器为这些耗时较长的任务比如HTTP,定时器以及事件监听等单独开一个线程,由于JavaScript单线程的特性,所有任务会形成一个任务队列等待被执行,<strong>当主线程中没有执行任何同步任务时</strong>,异步线程就会通过<code>回调函数</code>将执行完毕的异步任务放到JavaScript主线程的任务队列里</p>
+<h2 id="EventLoop"><a href="#EventLoop" class="headerlink" title="EventLoop"></a>EventLoop</h2><p>JavaScript主线程会一直循环查找任务队列里是否还有其他任务</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//dosomething...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    fn2()</span><br><span class="line">    <span class="comment">// dosomething...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    fn1();</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
+<p>比如这段代码,函数<code>foo</code>在执行时,主线程发现它还需要执行函数<code>fn1</code>,就把它推入一个栈中,执行到fn1时又发现它需要先执行fn2,于是又将fn1推入栈中,等到fn2执行结束,继续执行fn1,fn1执行结束将继续执行foo,待所有函数执行完成,主线程会让这些函数出栈,此时说明一个任务已经执行完毕,主线程会从下一个任务队列(callback equeue)中寻找下一个任务推入栈中,这个过程就叫做<code>EventLoop</code></p>
+<h2 id="用C语言实现一个事件循环"><a href="#用C语言实现一个事件循环" class="headerlink" title="用C语言实现一个事件循环"></a>用C语言实现一个事件循环</h2><blockquote>
+<p>扑街</p>
+</blockquote>
+<h2 id="以下代码输入结果是什么-为什么"><a href="#以下代码输入结果是什么-为什么" class="headerlink" title="以下代码输入结果是什么,为什么?"></a>以下代码输入结果是什么,为什么?</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">    value: <span class="string">'aaa'</span>,</span><br><span class="line">    say: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.vlaue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = &#123;</span><br><span class="line">    value: <span class="string">'bbb'</span>,</span><br><span class="line">    say: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a.say = b.say;</span><br><span class="line">a.say(); <span class="comment">// 输出结果是什么</span></span><br></pre></td></tr></table></figure>
+<p>输出字符串<code>aaa</code>,因为函数中this的指向始终是运行时调用它的对象</p>
+<h2 id="多个异步请求-如何使所有请求结束后才执行下一步"><a href="#多个异步请求-如何使所有请求结束后才执行下一步" class="headerlink" title="多个异步请求,如何使所有请求结束后才执行下一步"></a>多个异步请求,如何使所有请求结束后才执行下一步</h2><p>将请求包装为一个Promise数组,使用Promise.all执行,之后调用.then即可</p>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><h3 id="React生命周期函数有哪些"><a href="#React生命周期函数有哪些" class="headerlink" title="React生命周期函数有哪些"></a>React生命周期函数有哪些</h3><ul>
+<li>componentWillMount</li>
+<li>componentDidMount</li>
+<li>render</li>
+<li>componentWillUpdate</li>
+<li>componentWillReceiveProps</li>
+<li>render</li>
+<li>componentDidUpdate</li>
+<li>componentUnMount</li>
+</ul>
+<h3 id="React有几种组件"><a href="#React有几种组件" class="headerlink" title="React有几种组件"></a>React有几种组件</h3><ul>
+<li>有状态组件(包含生命周期方法,在组件渲染-更新-卸载阶段会自动执行)</li>
+<li>无状态组件(纯UI展示型组件,无法使用this以及生命周期方法)</li>
+<li>高阶组件(使用一个高阶函数包装,接受指定一个组件并进行修改后返回新的组件)</li>
+</ul>
+<h3 id="高阶组件具体使用场景是什么-解决了什么问题"><a href="#高阶组件具体使用场景是什么-解决了什么问题" class="headerlink" title="高阶组件具体使用场景是什么,解决了什么问题"></a>高阶组件具体使用场景是什么,解决了什么问题</h3><p>高阶组件可以将多个组件中逻辑相同的部分抽离出来,由一个函数包装后形成一个新的组件,并且不影响原组件</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> <span class="keyword">extends</span> <span class="title">PureComponent</span> </span>&#123;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.props.name);</span><br><span class="line">    &#125;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> &lt;div&gt;I am &#123;this.props.name&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">PureComponent</span> </span>&#123;</span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.props.name);</span><br><span class="line">    &#125;</span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span> &lt;div&gt;I am &#123;this.props.name&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HighOrderLog</span>(<span class="params">Component</span>) </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Com</span> <span class="keyword">extends</span> <span class="title">PureComponent</span> </span>&#123;</span><br><span class="line">        </span><br><span class="line">        componentWillMount() &#123;</span><br><span class="line">        	<span class="built_in">console</span>.log(<span class="keyword">this</span>.props.name);</span><br><span class="line">    	&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> &lt;Component name=&#123;this.props.name&#125; /&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    return Com;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="setState是同步还是异步-为什么-调用后怎么拿到新的state"><a href="#setState是同步还是异步-为什么-调用后怎么拿到新的state" class="headerlink" title="setState是同步还是异步, 为什么,调用后怎么拿到新的state"></a>setState是同步还是异步, 为什么,调用后怎么拿到新的state</h3><p>异步,因为每次调用setState之后,React内部不光要更新state,还要进行一系列比如diff算法来决定下一次render,setState多次调用会造成一定程度上性能的损耗,所以React会将多个setState先合并再执行,这样一来避免了不必要的性能损失</p>
+<p>拿到新的state有两种方法</p>
+<ul>
+<li>setState的第二个参数是一个回调函数,会在state更新后自动执行,这个函数里就可以拿到最新的state</li>
+<li>利用componentDidUpdate函数</li>
+</ul>
+<h3 id="父组件更新state后-子组件会不会rerender"><a href="#父组件更新state后-子组件会不会rerender" class="headerlink" title="父组件更新state后,子组件会不会rerender"></a>父组件更新state后,子组件会不会rerender</h3><p>分两种情况</p>
+<ul>
+<li>如果子组件没有用到父组件的state,则不会rerender</li>
+<li>如果用到<ul>
+<li>使用PureComponent,且父组件更新的state不是子组件使用的,则子组件不会rerendr</li>
+<li>使用Component,不管子组件是否用到更新的state,都会触发rerender</li>
+</ul>
+</li>
+</ul>
+<h3 id="为什么PureComponent不会引起子组件重渲染"><a href="#为什么PureComponent不会引起子组件重渲染" class="headerlink" title="为什么PureComponent不会引起子组件重渲染"></a>为什么PureComponent不会引起子组件重渲染</h3><p>因为PureComponent实现了<code>shouldComponentUpdate</code>方法,收到新的props后会做一次浅对比,既仅对比引用是否相同,shouldComponentUpdate方法返回布尔值,将决定组件是否进行重渲染</p>
+<h3 id="谈谈对Redux的理解"><a href="#谈谈对Redux的理解" class="headerlink" title="谈谈对Redux的理解"></a>谈谈对Redux的理解</h3><p>Redux是单Store的思想,通过view-&gt;action-&gt;reducer-&gt;view的单向数据流管理页面状态</p>
+<ul>
+<li>action只返回一个简单对象,包含一个type属性及执行动作所需的数据</li>
+<li>reducer是一个纯函数,利用switch/case根据不同的action对state进行相应的修改并返回新的state</li>
+<li>store是一个包含<code>getState</code>,<code>dispatch</code>,<code>subscribe</code>等方法的对象,它接受reducer作为参数<ul>
+<li>dispatch负责触发action,store内部会将当前state和触发的action传递给reducer函数,state被修改并返回</li>
+<li>subscribe函数负责订阅一个更新后的回调函数并存放在store内部的listener中,当reducer执行完毕则执行这个回调函数</li>
+</ul>
+</li>
+</ul>
+<h3 id="Redux的State与React组件本身的State是否冲突"><a href="#Redux的State与React组件本身的State是否冲突" class="headerlink" title="Redux的State与React组件本身的State是否冲突"></a>Redux的State与React组件本身的State是否冲突</h3><p>不冲突,业务层面上可以将React的state作为内部状态,既不依赖父组件或外部环境的组件可以使用state,而一些后端返回的数据,可能需要在多个组件中共享的,则可以作为全局的状态存放在redux的state中</p>
+<h3 id="Redux的中间件机制如何实现的"><a href="#Redux的中间件机制如何实现的" class="headerlink" title="Redux的中间件机制如何实现的"></a>Redux的中间件机制如何实现的</h3><p><a href="https://github.com/SakuraAsh/blog/issues/3">applyMIddleware源码解读</a></p>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h2 id="算法的时间复杂度是什么意思"><a href="#算法的时间复杂度是什么意思" class="headerlink" title="算法的时间复杂度是什么意思"></a>算法的时间复杂度是什么意思</h2><p>简单来讲就是指一个算法解决相应问题其代码执行基本语句需要的次数</p>
+<blockquote>
+<p>算法中某个特定步骤的执行次数/对于总执行时间的估算成本，随着「问题规模」的增大时，增长的形式。</p>
+</blockquote>
+<p>决定算法复杂度的两个重要因素是</p>
+<ul>
+<li>问题规模</li>
+<li>算法策略</li>
+</ul>
+<h2 id="实现冒泡排序-并说明其时间复杂度"><a href="#实现冒泡排序-并说明其时间复杂度" class="headerlink" title="实现冒泡排序,并说明其时间复杂度"></a>实现冒泡排序,并说明其时间复杂度</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">swap</span>(<span class="params">arr, i, j</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> tmp = arr[i];</span><br><span class="line">    arr[i] = arr[j];</span><br><span class="line">    arr[j] = tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> arrays = [<span class="number">21</span>,<span class="number">454</span>,<span class="number">6578</span>,<span class="number">784534</span>,<span class="number">443565</span>,<span class="number">87978</span>,<span class="number">4567</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i += <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - <span class="number">1</span>; j += <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                swap(arr, j, j + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bubbleSort(arrays); <span class="comment">// [21, 454, 4567, 6578, 87978, 443565, 784534]</span></span><br></pre></td></tr></table></figure>
+<p>冒泡排序的策略是依次循环比较两个相邻的项,如果第一个比第二个大,则交换他们的位置,较小的项会逐渐向上移动到正确的位置</p>
+<p>由于无论数组是否已经排序,都会对每一项进行双重的循环遍历,所以冒泡排序的时间复杂度是O(n²)</p>
+<h2 id="实现插入排序-并说明其时间复杂度"><a href="#实现插入排序-并说明其时间复杂度" class="headerlink" title="实现插入排序,并说明其时间复杂度"></a>实现插入排序,并说明其时间复杂度</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrays = [<span class="number">21</span>,<span class="number">454</span>,<span class="number">6578</span>,<span class="number">784534</span>,<span class="number">443565</span>,<span class="number">87978</span>,<span class="number">4567</span>];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertionSort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; length; i += <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j -= <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                swap(arr, j, j + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">insertionSort(arrays); <span class="comment">// [21, 454, 4567, 6578, 87978, 443565, 784534]</span></span><br></pre></td></tr></table></figure>
+<p>插入排序的策略是,将数组分为两个部分, 假设原第一项是已经排好序的一个数组,那么用其余数组项依次与这个已经排好序的数组对比,小的交换位置,直到其余数组为空,排序结束</p>
+<p>这段代码中,外循环从i = 1开始,即表示不论第一项多大,它被看做一个已经排好序的数组,从原数组第二项开始遍历,由于第一轮循环,有序数组只有一项,所以直接与第二项对比后交换位置,依次类推</p>
+<p>插入排序是不稳定的排序,最好的情况下时间复杂度为O(n),最坏情况下为O(n²)</p>
+<h2 id="数组扁平化"><a href="#数组扁平化" class="headerlink" title="数组扁平化"></a>数组扁平化</h2><p>将<code>[123, [2,32,445,[32,54,4]]]</code>转为<code>[123,2,32,445,32,54,4]</code></p>
+<p>使用isArray方法判断是否为数组,递归调用即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrays = [<span class="number">123</span>, [<span class="number">2</span>, <span class="number">32</span>, <span class="number">445</span>, [<span class="number">32</span>, <span class="number">54</span>, <span class="number">4</span>]]];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flatten</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.reduce(<span class="function">(<span class="params">pre, cur</span>) =&gt;</span> &#123;</span><br><span class="line">       <span class="keyword">return</span> pre.concat(<span class="built_in">Array</span>.isArray(cur) ? flatten(cur) : cur);</span><br><span class="line">  &#125;,[])</span><br><span class="line">&#125;</span><br><span class="line">flatten(arrays); <span class="comment">// [123, 2, 32, 445, 32, 54, 4]</span></span><br></pre></td></tr></table></figure>
+<h2 id="翻转二叉树"><a href="#翻转二叉树" class="headerlink" title="翻转二叉树"></a>翻转二叉树</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reversalBST</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root === <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">const</span> temp = root.left;</span><br><span class="line">    root.left = root.right;</span><br><span class="line">    root.right = temp;</span><br><span class="line">    temp(root.left);</span><br><span class="line">    temp(root.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统"><span class="toc-number">1.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程和线程的区别"><span class="toc-number">1.1.</span> <span class="toc-text">进程和线程的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP"><span class="toc-number">2.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP是什么"><span class="toc-number">2.1.</span> <span class="toc-text">HTTP是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求报文"><span class="toc-number">2.2.</span> <span class="toc-text">请求报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#响应报文"><span class="toc-number">2.3.</span> <span class="toc-text">响应报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP方法"><span class="toc-number">2.4.</span> <span class="toc-text">HTTP方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP状态码"><span class="toc-number">2.5.</span> <span class="toc-text">HTTP状态码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1XX"><span class="toc-number">2.5.1.</span> <span class="toc-text">1XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2XX"><span class="toc-number">2.5.2.</span> <span class="toc-text">2XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3XX"><span class="toc-number">2.5.3.</span> <span class="toc-text">3XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4XX"><span class="toc-number">2.5.4.</span> <span class="toc-text">4XX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5XX"><span class="toc-number">2.5.5.</span> <span class="toc-text">5XX</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要有HTTPS"><span class="toc-number">2.6.</span> <span class="toc-text">为什么要有HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS如何加密的"><span class="toc-number">2.7.</span> <span class="toc-text">HTTPS如何加密的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript"><span class="toc-number">3.</span> <span class="toc-text">JavaScript</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript是单线程还是多线程"><span class="toc-number">3.1.</span> <span class="toc-text">JavaScript是单线程还是多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么单线程的JavaScript可以实现异步"><span class="toc-number">3.2.</span> <span class="toc-text">为什么单线程的JavaScript可以实现异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.3.</span> <span class="toc-text">EventLoop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用C语言实现一个事件循环"><span class="toc-number">3.4.</span> <span class="toc-text">用C语言实现一个事件循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以下代码输入结果是什么-为什么"><span class="toc-number">3.5.</span> <span class="toc-text">以下代码输入结果是什么,为什么?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多个异步请求-如何使所有请求结束后才执行下一步"><span class="toc-number">3.6.</span> <span class="toc-text">多个异步请求,如何使所有请求结束后才执行下一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#React"><span class="toc-number">3.7.</span> <span class="toc-text">React</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#React生命周期函数有哪些"><span class="toc-number">3.7.1.</span> <span class="toc-text">React生命周期函数有哪些</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#React有几种组件"><span class="toc-number">3.7.2.</span> <span class="toc-text">React有几种组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高阶组件具体使用场景是什么-解决了什么问题"><span class="toc-number">3.7.3.</span> <span class="toc-text">高阶组件具体使用场景是什么,解决了什么问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setState是同步还是异步-为什么-调用后怎么拿到新的state"><span class="toc-number">3.7.4.</span> <span class="toc-text">setState是同步还是异步, 为什么,调用后怎么拿到新的state</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#父组件更新state后-子组件会不会rerender"><span class="toc-number">3.7.5.</span> <span class="toc-text">父组件更新state后,子组件会不会rerender</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么PureComponent不会引起子组件重渲染"><span class="toc-number">3.7.6.</span> <span class="toc-text">为什么PureComponent不会引起子组件重渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#谈谈对Redux的理解"><span class="toc-number">3.7.7.</span> <span class="toc-text">谈谈对Redux的理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redux的State与React组件本身的State是否冲突"><span class="toc-number">3.7.8.</span> <span class="toc-text">Redux的State与React组件本身的State是否冲突</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redux的中间件机制如何实现的"><span class="toc-number">3.7.9.</span> <span class="toc-text">Redux的中间件机制如何实现的</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法"><span class="toc-number">4.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法的时间复杂度是什么意思"><span class="toc-number">4.1.</span> <span class="toc-text">算法的时间复杂度是什么意思</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现冒泡排序-并说明其时间复杂度"><span class="toc-number">4.2.</span> <span class="toc-text">实现冒泡排序,并说明其时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现插入排序-并说明其时间复杂度"><span class="toc-number">4.3.</span> <span class="toc-text">实现插入排序,并说明其时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组扁平化"><span class="toc-number">4.4.</span> <span class="toc-text">数组扁平化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#翻转二叉树"><span class="toc-number">4.5.</span> <span class="toc-text">翻转二叉树</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/03/24/Interview-questions/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&text=面试题整理"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&is_video=false&description=面试题整理"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=面试题整理&body=Check out this article: https://github.com/SakuraAsh/2018/03/24/Interview-questions/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&title=面试题整理"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/03/24/Interview-questions/&name=面试题整理&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 SakuraAsh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
