@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="树树是一种分层数据的抽象模型,一个树结构包含一系列存在父子关系的节点,每个节点都有一个父节点(除了根节点)以及多个子节点.  树顶部的节点叫做根节点. 由一个子节点以及其后代组成子树. 节点有个深度属性,表示当前节点在树的层级. 所有节点深度的最大值被称为树的高度.  二叉树和二叉搜索树二叉树中一个节点最多只能有两个子节点,分别为左侧节点以及右侧节点 二叉搜索树(BST)是另一种二叉树,但是它只允">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构之-二叉树">
+<meta property="og:url" content="http://yoursite.com/2018/03/18/BinarySearchTree/index.html">
+<meta property="og:site_name" content="SakuraAsh&#39;s blog">
+<meta property="og:description" content="树树是一种分层数据的抽象模型,一个树结构包含一系列存在父子关系的节点,每个节点都有一个父节点(除了根节点)以及多个子节点.  树顶部的节点叫做根节点. 由一个子节点以及其后代组成子树. 节点有个深度属性,表示当前节点在树的层级. 所有节点深度的最大值被称为树的高度.  二叉树和二叉搜索树二叉树中一个节点最多只能有两个子节点,分别为左侧节点以及右侧节点 二叉搜索树(BST)是另一种二叉树,但是它只允">
+<meta property="og:updated_time" content="2018-03-25T08:53:26.192Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构之-二叉树">
+<meta name="twitter:description" content="树树是一种分层数据的抽象模型,一个树结构包含一系列存在父子关系的节点,每个节点都有一个父节点(除了根节点)以及多个子节点.  树顶部的节点叫做根节点. 由一个子节点以及其后代组成子树. 节点有个深度属性,表示当前节点在树的层级. 所有节点深度的最大值被称为树的高度.  二叉树和二叉搜索树二叉树中一个节点最多只能有两个子节点,分别为左侧节点以及右侧节点 二叉搜索树(BST)是另一种二叉树,但是它只允">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>数据结构之-二叉树</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/18/BinarySearchTree/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/18/BinarySearchTree/&text=数据结构之-二叉树"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/18/BinarySearchTree/&is_video=false&description=数据结构之-二叉树"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据结构之-二叉树&body=Check out this article: http://yoursite.com/2018/03/18/BinarySearchTree/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/18/BinarySearchTree/&name=数据结构之-二叉树&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#树"><span class="toc-number">1.</span> <span class="toc-text">树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树和二叉搜索树"><span class="toc-number">1.1.</span> <span class="toc-text">二叉树和二叉搜索树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#向树中插入一个键"><span class="toc-number">1.1.1.</span> <span class="toc-text">向树中插入一个键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树的遍历"><span class="toc-number">1.1.2.</span> <span class="toc-text">树的遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#中序遍历"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">中序遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#先序遍历"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">先序遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#后序遍历"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">后序遍历</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        数据结构之-二叉树
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SakuraAsh's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-18T09:53:04.000Z" itemprop="datePublished">2018-03-18</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/数据结构/">数据结构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><p>树是一种分层数据的抽象模型,一个树结构包含一系列存在父子关系的节点,每个节点都有一个父节点(除了根节点)以及多个子节点.</p>
+<ul>
+<li>树顶部的节点叫做<code>根节点</code>.</li>
+<li>由一个子节点以及其后代组成<code>子树</code>.</li>
+<li>节点有个<code>深度</code>属性,表示当前节点在树的层级.</li>
+<li>所有节点深度的最大值被称为树的<code>高度</code>.</li>
+</ul>
+<h2 id="二叉树和二叉搜索树"><a href="#二叉树和二叉搜索树" class="headerlink" title="二叉树和二叉搜索树"></a>二叉树和二叉搜索树</h2><p><code>二叉树</code>中一个节点最多只能有两个子节点,分别为左侧节点以及右侧节点</p>
+<p><code>二叉搜索树</code>(BST)是另一种二叉树,但是它只允许左侧子节点存储比父节点小的值,而右侧子节点存储比父元素大的值</p>
+<p>二叉树的节点<code>Node</code>类有一个指向左侧子节点的属性<code>left</code>以及一个指向右侧子节点的属性<code>right</code>,以及表示自身的属性<code>key</code><br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Node &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> key: Node, <span class="keyword">public</span> left?: Node, <span class="keyword">public</span> right?: Node</span>)&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> BinarySearchTree &#123;</span><br><span class="line">  root: Node;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.root = <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="向树中插入一个键"><a href="#向树中插入一个键" class="headerlink" title="向树中插入一个键"></a>向树中插入一个键</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> insert(key: <span class="built_in">any</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> node = <span class="keyword">new</span> Node(key);</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.root === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.root = node;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    insertNode(<span class="keyword">this</span>.root, node);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>向树中插入一个键分为三部</p>
+<ul>
+<li>实例化一个新的node</li>
+<li>如果不存在根节点,则新插入的节点赋值给根节点</li>
+<li>如果已存在根节点,则调用<code>insertNode</code>函数递归插入</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertNode</span>(<span class="params">node: Node, newNode: Node</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 当新节点的key小于当前节点时,从当前节点左侧递归查找空位</span></span><br><span class="line">  <span class="keyword">if</span> (newNode.key &lt; node.key) &#123;</span><br><span class="line">    <span class="keyword">if</span> (node.left === <span class="literal">null</span>) &#123;</span><br><span class="line">      node.left = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      insertNode(node.left, newNode);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 新节点的key大于当前节点时,从当前节点右侧递归查找空位</span></span><br><span class="line">    <span class="keyword">if</span> (node.right === <span class="literal">null</span>) &#123;</span><br><span class="line">      node.right = newNode;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      insertNode(node.right, newNode);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h3><p>树的遍历分为<code>先序</code>,<code>中序</code>以及<code>后序</code></p>
+<h4 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h4><p>中序遍历是一种以上行顺序访问BST所有节点的遍历方式,也就是以从小到大的方式顺序访问所有节点,可以使用递归的方式依次遍历左侧节点和右侧节点,以节点为null作为递归终止条件<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> inOrderTraverse(callback: <span class="built_in">Function</span>) &#123;</span><br><span class="line">  inOrderTraverse(<span class="keyword">this</span>.root, callback);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inOrderTraverse</span>(<span class="params">node: Node, callback: <span class="built_in">Function</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">    inOrderTraverse(node.left, callback);</span><br><span class="line">    callback(node.key);</span><br><span class="line">    inOrderTraverse(node.right, callback);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h4><p>先序遍历是以优先于后代节点的顺序访问树<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> preOrderTraverse(callback: <span class="built_in">Function</span>) &#123;</span><br><span class="line">  preOrderTraverseNode(<span class="keyword">this</span>.root, callback);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">preOrderTraverseNode</span>(<span class="params">node: Node, callback: <span class="built_in">Function</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">    callback(node.key);</span><br><span class="line">    preOrderTraverseNode(node.left, callback);</span><br><span class="line">    preOrderTraverseNode(node.right, callback);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h4><p>后序遍历是指先访问节点的后代节点,再访问节点本身<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> postOrderTraverse(callback: <span class="built_in">Function</span>) &#123;</span><br><span class="line">  postOrderTraverseNode(<span class="keyword">this</span>.root, callback);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">postOrderTraverseNode</span>(<span class="params">node: Node, callback: <span class="built_in">Function</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</span><br><span class="line">    postOrderTraverseNode(node.left, callback);</span><br><span class="line">    postOrderTraverseNode(node.right, callback);</span><br><span class="line">    callback(node.key);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#树"><span class="toc-number">1.</span> <span class="toc-text">树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二叉树和二叉搜索树"><span class="toc-number">1.1.</span> <span class="toc-text">二叉树和二叉搜索树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#向树中插入一个键"><span class="toc-number">1.1.1.</span> <span class="toc-text">向树中插入一个键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#树的遍历"><span class="toc-number">1.1.2.</span> <span class="toc-text">树的遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#中序遍历"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">中序遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#先序遍历"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">先序遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#后序遍历"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">后序遍历</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/18/BinarySearchTree/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/18/BinarySearchTree/&text=数据结构之-二叉树"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/18/BinarySearchTree/&is_video=false&description=数据结构之-二叉树"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据结构之-二叉树&body=Check out this article: http://yoursite.com/2018/03/18/BinarySearchTree/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/18/BinarySearchTree/&title=数据结构之-二叉树"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/18/BinarySearchTree/&name=数据结构之-二叉树&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 SakuraAsh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
