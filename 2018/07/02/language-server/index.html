@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新  LanguageServerProtocolLanguageServerProtocol(以下简称LSP)是由微软提出，并与 Redhat、Codenvy、Sourcegraph 等公司联合推出的开源协议。用于语言服务程序向编辑器、IDE 等工具提供一系列代码提示、定义跳转等">
+<meta name="keywords" content="monaco, 代码提示, 代码诊断, LanguageServerProtocol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Monaco-Editor折腾记--LanguageServerProtocol">
+<meta property="og:url" content="https://github.com/SakuraAsh/2018/07/02/language-server/index.html">
+<meta property="og:site_name" content="SakuraAsh&#39;s blog">
+<meta property="og:description" content="本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新  LanguageServerProtocolLanguageServerProtocol(以下简称LSP)是由微软提出，并与 Redhat、Codenvy、Sourcegraph 等公司联合推出的开源协议。用于语言服务程序向编辑器、IDE 等工具提供一系列代码提示、定义跳转等">
+<meta property="og:updated_time" content="2018-07-02T10:04:11.569Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Monaco-Editor折腾记--LanguageServerProtocol">
+<meta name="twitter:description" content="本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新  LanguageServerProtocolLanguageServerProtocol(以下简称LSP)是由微软提出，并与 Redhat、Codenvy、Sourcegraph 等公司联合推出的开源协议。用于语言服务程序向编辑器、IDE 等工具提供一系列代码提示、定义跳转等">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Monaco-Editor折腾记--LanguageServerProtocol</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/07/02/language-server/&text=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/07/02/language-server/&is_video=false&description=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--LanguageServerProtocol&body=Check out this article: https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/07/02/language-server/&name=Monaco-Editor折腾记--LanguageServerProtocol&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LanguageServerProtocol"><span class="toc-number">1.</span> <span class="toc-text">LanguageServerProtocol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概览"><span class="toc-number">2.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使-LSP-为-monaco-编辑器提供服务"><span class="toc-number">3.</span> <span class="toc-text">如何使 LSP 为 monaco 编辑器提供服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LanguageClient"><span class="toc-number">3.1.</span> <span class="toc-text">LanguageClient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通信方式"><span class="toc-number">3.2.</span> <span class="toc-text">通信方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web-端如何实现"><span class="toc-number">4.</span> <span class="toc-text">Web 端如何实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Monaco-Editor折腾记--LanguageServerProtocol
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">SakuraAsh's blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-07-02T02:57:20.000Z" itemprop="datePublished">2018-07-02</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/monaco-代码提示-代码诊断-LanguageServerProtocol/">monaco, 代码提示, 代码诊断, LanguageServerProtocol</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新</p>
+</blockquote>
+<h2 id="LanguageServerProtocol"><a href="#LanguageServerProtocol" class="headerlink" title="LanguageServerProtocol"></a>LanguageServerProtocol</h2><p><a href="https://microsoft.github.io/language-server-protocol/" target="_blank" rel="noopener">LanguageServerProtocol</a>(以下简称LSP)是由微软提出，并与 Redhat、Codenvy、Sourcegraph 等公司联合推出的开源协议。用于语言服务程序向编辑器、IDE 等工具提供一系列代码提示、定义跳转等功能的通用协议。它将高级语言相关的一些功能特性从传统 IDE 中抽象出一个单独的程序来运行，LSP 定义了一套通用的API，遵循LSP协议实现某个语言的特性功能后，编辑器只需要调用该语言的 LanguageServer ，即可实现代码提示、定义跳转、代码诊断等功能。</p>
+<p>传统的IDE或编辑器要实现诸如智能提示、自动补全等功能，需要根据不同的IDE来开发相应语言的特性功能程序，多个 IDE 要想支持多种高级语言，且每个 IDE 的具体实现及 API 可能都大不相同，开发成本非常高。LSP的出现则很好的解决了这个问题，N 个 IDE 和 M 个语言，只需要开发一次相应语言的语言服务器程序即可在每个IDE中使用。</p>
+<p><a href="https://github.com/Microsoft/language-server-protocol/wiki/Protocol-History">LanguageServerProtocol起源</a></p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>LSP使用<a href="http://www.jsonrpc.org/" target="_blank" rel="noopener">JSON-RPC</a>协议作为 Server/Client 通信的消息格式，且支持 TCP、Stdin/Stdout 进行消息传输，所以它即可以运行在本地客户端，也可以运行在远程服务器上。<br>截至目前 LSP 版本为3.8，实现了数十个方法(具体没数😆)，部分主流 IDE/编辑器也已经支持了 LSP ，包括 Eclipse、VScode、Sublime Text &amp; Sublime Text 3、Atom 等。</p>
+<p>LSP协议基本消息格式由 <code>header</code> 与 <code>content</code> 组成，中间使用<code>\r\n</code>作为分隔符。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Content-length: ... \r\n</span><br><span class="line">\r\n</span><br><span class="line">&#123;</span><br><span class="line">	&quot;jsonrpc&quot;: &quot;2.0&quot;,</span><br><span class="line">	&quot;id&quot;: 1,</span><br><span class="line">	&quot;method&quot;: &quot;textDocument/didOpen&quot;,</span><br><span class="line">	&quot;params&quot;: &#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>LSP消息大体来说分为三种类型</p>
+<ul>
+<li>通知 (Notifiction)</li>
+<li>请求 (Request)</li>
+<li>日志及错误信 (LogMessage/ShowMessage)</li>
+</ul>
+<p>通信是双向的，Client 可以向 Server 发送请求/通知，比如打开文件、修改文档内容等。 Server 也可以向 Client 发送请求/通知，比如动态注册客户端功能。每个请求需要使用 <code>id</code> 为唯一标识符，对这个请求的返回值也应当包含这个 id，一般来说 id 为递增的数字。<br>LSP的工作流程如下：</p>
+<ul>
+<li><p>Client 发送 <code>initialize</code> 请求，包含一些初始化参数。Server 收到请求后开始准备启动语言服务，之后 Server 会发送 <code>initialized</code> 通知到客户端，语言服务开始工作。</p>
+</li>
+<li><p>初始化成功后 Server 可能会向 Client 发送一些动态注册功能的请求 <code>client/registerCapability</code>。</p>
+</li>
+<li><p>每次打开一个文件， Client 需要向 Server 发送一个 <code>textDocument/didOpen</code> 请求，携带文件 <a href="https://tools.ietf.org/html/rfc3986" target="_blank" rel="noopener">URI</a> 参数。同理关闭文件后要发送一个 <code>textDocument/didClose</code> 请求。</p>
+</li>
+<li><p>编辑文档时，当输入<code>.</code>或按下语法提示快捷键时， Client 发送 <code>textDocument/completion</code> 请求来获取智能提示列表。</p>
+</li>
+<li><p>当用户查询某个类/变量/方法的声明时（点击跳转），Client 发送 <code>textDocument/definition</code> ，Server 将返回对应的文件 URI 及位置信息。Client 需要实现打开这个新文件的方法。</p>
+</li>
+<li><p>当用户关闭编辑器时，Client 先发送 <code>shutdown</code> 请求，Server 收到请求后会立即关闭但并不会退出进程，而是等待 Client 发送 <code>exit</code> 通知。</p>
+</li>
+</ul>
+<h2 id="如何使-LSP-为-monaco-编辑器提供服务"><a href="#如何使-LSP-为-monaco-编辑器提供服务" class="headerlink" title="如何使 LSP 为 monaco 编辑器提供服务"></a>如何使 LSP 为 monaco 编辑器提供服务</h2><p>虽然 monaco 编辑器脱胎于 VScode ，但其只是一个编辑器实现，没有文件树，多标签页支持。同时 VScode 是基于 Electron 的桌面端应用，自带 Nodejs 环境，可以利用 TCP 或 Stdin/Stdout 来开启语言服务，虽然 VScode 团队开源了一些 LSP 相关的库，但由于运行环境的巨大差异，在 Web 端并不能直接应用。</p>
+<h3 id="LanguageClient"><a href="#LanguageClient" class="headerlink" title="LanguageClient"></a>LanguageClient</h3><p>要在 VScode 中体验 LSP， 需要先下载安装 <a href="https://github.com/redhat-developer/vscode-java">vscode-java</a> 插件。这个插件由 redhat-developer 团队开源，使用 TypeScript 及 JavaScript 编写，主要作用是下载和构建 <a href="https://github.com/eclipse/eclipse.jdt.ls">eclipse.jdt.ls</a> 程序, 以及创建 LanguageClient 使 VScode 能够启动 LSP。 eclipse.jdt.ls 就是 eclipse 开发的 Java 语言服务器 LSP 实现。</p>
+<p>LanguageClient 类由 VScode 团队开源的 <a href="https://www.npmjs.com/package/vscode-languageclient" target="_blank" rel="noopener">vscode-languageclient</a> 库提供，它的主要作用是根据传入的配置连接到指定语言的 LSP，并对 LSP 支持的各种方法做一层封装，还包含了本地运行 LSP 程序时对 TCP 消息进行粘包处理的功能。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; LanguageClient, LanguageClientOptions, ServerOptions &#125; <span class="keyword">from</span> <span class="string">'vscode-language-client'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> clientOptions: LanguageClientOptions = &#123;</span><br><span class="line">  documentSelector: [</span><br><span class="line">    &#123; scheme: <span class="string">'file'</span>, language: <span class="string">'java'</span> &#125;,</span><br><span class="line">    &#123; scheme: <span class="string">'jdt'</span>, language: <span class="string">'java'</span> &#125;,</span><br><span class="line">    &#123; scheme: <span class="string">'untitled'</span>, language: <span class="string">'java'</span> &#125;</span><br><span class="line">  ],</span><br><span class="line">  synchronize: &#123;</span><br><span class="line">    configurationSection: <span class="string">'java'</span>,</span><br><span class="line">    fileEvents: [</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/*.java'</span>),</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/pom.xml'</span>),</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/*.gradle'</span>),</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/.project'</span>),</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/.classpath'</span>),</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/settings/*.prefs'</span>),</span><br><span class="line">      workspace.createFileSystemWatcher(<span class="string">'**/src/**'</span>)</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> serverOptions: ServerOptions = &#123;</span><br><span class="line">  command: <span class="string">'java'</span>,</span><br><span class="line">  args: [</span><br><span class="line">    <span class="comment">// jdt.ls 启动参数</span></span><br><span class="line">  ],</span><br><span class="line">  options: &#123;</span><br><span class="line">    <span class="comment">// 相关配置</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> client = <span class="keyword">new</span> LanguageClient(&#123;</span><br><span class="line">  <span class="string">'java'</span>,</span><br><span class="line">  <span class="string">'Language Support for Java'</span>,</span><br><span class="line">  serverOptions,</span><br><span class="line">  clientOptions,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">client.start();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个库源代码实际包含在 <a href="https://github.com/Microsoft/vscode-languageserver-node">vscode-languageserver-node</a> 中，猜测可能是 VScode 团队实现 Nodejs 的 LSP 客户端/服务端后觉得它可以作为一个通用的客户端实现，所以单独发布到了 npm 上。</p>
+</blockquote>
+<h3 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h3><p>之前说过，LSP 支持 TCP 和 Stdin/out 来和客户端通信。</p>
+<ul>
+<li><p>如果是以 TCP 的方式， jdt.ls 启动时需要指定一个 <code>CLIENT_PORT</code> 参数表明 TCP 服务的端口，需要注意的是以 TCP 模式启动 jdt.js，LSP 是作为 TCP 客户端，所以需要再开启一个 TCP 服务器，之后 jdt.ls 才会连接到指定端口的服务上进行通信。</p>
+</li>
+<li><p>如果是以 Stdin/Stdout 启动，则只需要使用 Nodejs 的 Childprocess 开启一个子进程，然后利用标准输入输出与 Client 通信。</p>
+</li>
+</ul>
+<h2 id="Web-端如何实现"><a href="#Web-端如何实现" class="headerlink" title="Web 端如何实现"></a>Web 端如何实现</h2><p>浏览器是一个封闭的环境，它只能操作 DOM ，所以要想在浏览器中为 monaco 编辑器提供 LSP 服务，必须要把 LSP 运行在服务器上。</p>
+<p>由于 LSP 和 monaco 本身就是同一个团队开发的，所以 jdt.ls 的实现也可以完美兼容 monaco。我们使用 webSocket 与服务端通信，由于浏览器端的限制，我们无法直接使用 vscode-languageclient ，幸好 typefox 团队基于 vscode-languageclient 开发了使用于浏览器端的适配器 <a href="https://github.com/TypeFox/monaco-languageclient">monaco-languageclient</a>。借助这个库，我们可以使用 webSocket 轻松的连接远端 LSP 服务。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createMonacoServices &#125; <span class="keyword">from</span> <span class="string">'monaco-languageclient'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; listen, MessageConnection &#125; <span class="keyword">from</span> <span class="string">'vscode-ws-jsonrpc'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> monaco <span class="keyword">from</span> <span class="string">'monaco-editor'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> editor = monaco.editor.create(root, &#123;</span><br><span class="line">  model: monaco.editor.createModel(value, <span class="string">'java'</span>, monaco.Uri.parse(<span class="string">`file://javademo/Hello.java`</span>)),</span><br><span class="line">  theme: <span class="string">'vs-dark'</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url = <span class="string">'ws://127.0.0.1/java-lsp'</span>;</span><br><span class="line"><span class="comment">// 创建 services，向编辑器注册一系列命令</span></span><br><span class="line"><span class="keyword">const</span> services = createMonacoServices(editor, &#123; rootUri: <span class="string">`file://javademo`</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> webSocket = <span class="keyword">new</span> WebSocket(url);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听 webSocket 连接，连接成功后创建客户端并启动</span></span><br><span class="line">listen(&#123;</span><br><span class="line">  webSocket,</span><br><span class="line">  onConnection: <span class="function">(<span class="params">connection: MessageConnection</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> languageClient = createLanguageClient(connection);</span><br><span class="line">    <span class="keyword">const</span> disposable = languageClient.start();</span><br><span class="line">    connection.onClose(<span class="function"><span class="params">()</span> =&gt;</span> disposable.dispose());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createLanguageClient</span>(<span class="params">connection: MessageConnection</span>): <span class="title">BaseLanguageClient</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> BaseLanguageClient(&#123;</span><br><span class="line">    name: <span class="string">"Java LSP client"</span>,</span><br><span class="line">    clientOptions: &#123;</span><br><span class="line">      documentSelector: [<span class="string">'java'</span>],</span><br><span class="line">      errorHandler: &#123;</span><br><span class="line">        error: <span class="function"><span class="params">()</span> =&gt;</span> ErrorAction.Continue,</span><br><span class="line">        closed: <span class="function"><span class="params">()</span> =&gt;</span> CloseAction.DoNotRestart</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    services,</span><br><span class="line">    connectionProvider: &#123;</span><br><span class="line">      <span class="keyword">get</span>: <span class="function">(<span class="params">errorHandler, closeHandler</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(createConnection(connection, errorHandler, closeHandler))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们还使用了一个库 <code>vscode-ws-jsonrpc</code>，这也是 typefox 团队根据原 VScode 的 <code>vscode-jsonrpc</code> 修改而来。原本的 <code>vscode-jsonrpc</code> 并不支持 WebSocket，所以对它进行了扩展以支持浏览器端。</p>
+<p>在服务端我们需要用 Nodejs 的 Childprocess 启动 jdt.ls，同时还要再开启一个 webSocket 服务器。监听 websocket 的 onmessage 事件，将 data 通过 stdin 发送给 LSP, 再监听 stdout 的 ondata 事件，将返回结果通过 webSocket 发送到浏览器端。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> cp <span class="keyword">from</span> <span class="string">'child-process'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> express <span class="keyword">from</span> <span class="string">'express'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> glob <span class="keyword">from</span> <span class="string">'glob'</span>;</span><br><span class="line"><span class="keyword">import</span> WebSocket <span class="keyword">from</span> <span class="string">'ws'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> CONFIG_DIR = process.platform === <span class="string">'darwin'</span> ? <span class="string">'config_mac'</span> : process.platform === <span class="string">'linux'</span> ? <span class="string">'config_linux'</span> : <span class="string">'config_win'</span>;</span><br><span class="line"><span class="keyword">const</span> BASE_URI = <span class="string">'/data/eclipse.jdt.ls/server'</span>;</span><br><span class="line"><span class="keyword">type</span> IJavaExecutable = &#123;</span><br><span class="line">  options: <span class="built_in">any</span>;</span><br><span class="line">  command: <span class="built_in">string</span>;</span><br><span class="line">  args: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> PORT = <span class="number">9988</span>;</span><br><span class="line"><span class="keyword">const</span> SERVER_HOME = <span class="string">'lsp-java-server'</span>;</span><br><span class="line"><span class="keyword">const</span> launchersFound: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt; = glob.sync(<span class="string">'**/plugins/org.eclipse.equinox.launcher_*.jar'</span>, &#123; cwd: <span class="string">`./<span class="subst">$&#123;SERVER_HOME&#125;</span>`</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (launchersFound.length === <span class="number">0</span> || !launchersFound) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'**/plugins/org.eclipse.equinox.launcher_*.jar Not Found!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> params: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt; = [</span><br><span class="line">  <span class="string">'-Xmx256m'</span>,</span><br><span class="line">  <span class="string">'-Xms256m'</span>,</span><br><span class="line">  <span class="string">'-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=,quiet=y'</span>,</span><br><span class="line">  <span class="string">'-Declipse.application=org.eclipse.jdt.ls.core.id1'</span>,</span><br><span class="line">  <span class="string">'-Dosgi.bundles.defaultStartLevel=4'</span>,</span><br><span class="line">  <span class="string">'-noverify'</span>,</span><br><span class="line">  <span class="string">'-Declipse.product=org.eclipse.jdt.ls.core.product'</span>,</span><br><span class="line">  <span class="string">'-jar'</span>,</span><br><span class="line">  <span class="string">`<span class="subst">$&#123;BASE_URI&#125;</span>/<span class="subst">$&#123;launchersFound[0]&#125;</span>`</span>,</span><br><span class="line">  <span class="string">'-configuration'</span>,</span><br><span class="line">  <span class="string">`<span class="subst">$&#123;BASE_URI&#125;</span>/<span class="subst">$&#123;CONFIG_DIR&#125;</span>`</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">prepareExecutable</span>(<span class="params"></span>): <span class="title">IJavaExecutable</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> executable = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">let</span> options = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</span><br><span class="line">  options.env = process.env;</span><br><span class="line">  options.stdio = <span class="string">'pipe'</span>;</span><br><span class="line">  executable.options = options;</span><br><span class="line">  executable.command = <span class="string">'java'</span>;</span><br><span class="line">  executable.args = params;</span><br><span class="line">  <span class="keyword">return</span> executable;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> executable = prepareExecutable();</span><br><span class="line"><span class="keyword">const</span> app = express();</span><br><span class="line"><span class="keyword">const</span> server = app.listen(<span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ws = <span class="keyword">new</span> WebSocket.Server(&#123;</span><br><span class="line">  noServer: <span class="literal">true</span>,</span><br><span class="line">  perMessageDeflate: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.on(<span class="string">'upgrade'</span>, <span class="function">(<span class="params">request: http.IncomingMessage, socket: net.Socket, head: Buffer</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> pathname = request.url ? url.parse(request.url).pathname : <span class="literal">undefined</span>;</span><br><span class="line">    <span class="keyword">if</span> (pathname === <span class="string">'/java-lsp'</span>) &#123;</span><br><span class="line">        wss.handleUpgrade(request, socket, head, <span class="function"><span class="params">webSocket</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> socket: rpc.IWebSocket = &#123;</span><br><span class="line">                send: <span class="function"><span class="params">content</span> =&gt;</span> webSocket.send(content, <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> error;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;),</span><br><span class="line">                onMessage: <span class="function"><span class="params">cb</span> =&gt;</span> webSocket.on(<span class="string">'message'</span>, cb),</span><br><span class="line">                onError: <span class="function"><span class="params">cb</span> =&gt;</span> webSocket.on(<span class="string">'error'</span>, cb),</span><br><span class="line">                onClose: <span class="function"><span class="params">cb</span> =&gt;</span> webSocket.on(<span class="string">'close'</span>, cb),</span><br><span class="line">                dispose: <span class="function"><span class="params">()</span> =&gt;</span> webSocket.close()</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">if</span> (webSocket.readyState === webSocket.OPEN) &#123;</span><br><span class="line">                launch(socket);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                webSocket.on(<span class="string">'open'</span>, <span class="function"><span class="params">()</span> =&gt;</span> launch(socket));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">launch</span>(<span class="params">socket</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> process = cp.spawn(executable.command, executable.args);</span><br><span class="line">  </span><br><span class="line">  sockt.onMessage(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    process.stdin.write(data)</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  process.stdout.on(<span class="string">'data'</span>, <span class="function">(<span class="params">respose</span>) =&gt;</span> &#123;</span><br><span class="line">    socket.send(respose)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>webSocket 服务器实际作为一个中转层，将浏览器与 LSP 连接起来，这样就实现了最基本的语言服务连接。<br>除此之外，jdt.ls 还支持 maven 项目的原生支持以及 gradle 项目的有限支持（不支持 Android ）项目，客户端还需要实现文件监控功能，当 <code>pom.xml</code>、<code>budile.gradle</code> 等构建工具相关配置文件发生改变时语言服务会自动下载依赖修改项目配置。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了 LanguageServerProtocol 的基本概念及编辑器与 LSP 的简单交互流程，了解了 VScode 如何利用 LSP 实现代码提示、智能感知、自动完成等功能，最后在 Web 端实现了编辑器与 LSP 服务的简单连接。LSP 打破了传统 IDE 重复实现多次语言特性功能的尴尬局面，并在 VScode 上做了非常好的实践，文中使用的 <code>eclipse.jdt.ls</code> 语言服务器已经在 <a href="https://studio.coding.net/ws/default" target="_blank" rel="noopener">Cloud Studio 2.0</a> 版本正式上线，感兴趣的读者可以点击创建一个 Java 项目试用。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://microsoft.github.io/language-server-protocol/" target="_blank" rel="noopener">language-server-protocol</a></li>
+<li><a href="https://typefox.io/teaching-the-language-server-protocol-to-microsofts-monaco-editor" target="_blank" rel="noopener">teaching-the-language-server-protocol-to-microsofts-monaco-editor</a></li>
+<li><a href="https://github.com/eclipse/eclipse.jdt.ls">eclipse.jdt.ls</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LanguageServerProtocol"><span class="toc-number">1.</span> <span class="toc-text">LanguageServerProtocol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概览"><span class="toc-number">2.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使-LSP-为-monaco-编辑器提供服务"><span class="toc-number">3.</span> <span class="toc-text">如何使 LSP 为 monaco 编辑器提供服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LanguageClient"><span class="toc-number">3.1.</span> <span class="toc-text">LanguageClient</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通信方式"><span class="toc-number">3.2.</span> <span class="toc-text">通信方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web-端如何实现"><span class="toc-number">4.</span> <span class="toc-text">Web 端如何实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/07/02/language-server/&text=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/07/02/language-server/&is_video=false&description=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--LanguageServerProtocol&body=Check out this article: https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/07/02/language-server/&name=Monaco-Editor折腾记--LanguageServerProtocol&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 SakuraAsh
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/SakuraAsh">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
