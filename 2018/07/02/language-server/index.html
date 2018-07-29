@@ -10,7 +10,7 @@
 <meta name="keywords" content="monaco, 代码提示, 代码诊断, LanguageServerProtocol">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Monaco-Editor折腾记--LanguageServerProtocol">
-<meta property="og:url" content="https://github.com/SakuraAsh/2018/07/02/language-server/index.html">
+<meta property="og:url" content="https://github.com/Aaaaash/2018/07/02/language-server/index.html">
 <meta property="og:site_name" content="SakuraAsh&#39;s blog">
 <meta property="og:description" content="本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新  LanguageServerProtocolLanguageServerProtocol(以下简称LSP)是由微软提出，并与 Redhat、Codenvy、Sourcegraph 等公司联合推出的开源协议。用于语言服务程序向编辑器、IDE 等工具提供一系列代码提示、定义跳转等">
 <meta property="og:updated_time" content="2018-07-02T10:04:11.569Z">
@@ -82,16 +82,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/07/02/language-server/&text=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/07/02/language-server/&is_video=false&description=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--LanguageServerProtocol&body=Check out this article: https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/07/02/language-server/&name=Monaco-Editor折腾记--LanguageServerProtocol&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/Aaaaash/2018/07/02/language-server/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/Aaaaash/2018/07/02/language-server/&text=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/Aaaaash/2018/07/02/language-server/&is_video=false&description=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--LanguageServerProtocol&body=Check out this article: https://github.com/Aaaaash/2018/07/02/language-server/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/Aaaaash/2018/07/02/language-server/&name=Monaco-Editor折腾记--LanguageServerProtocol&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -220,16 +220,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/07/02/language-server/&text=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/07/02/language-server/&is_video=false&description=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--LanguageServerProtocol&body=Check out this article: https://github.com/SakuraAsh/2018/07/02/language-server/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/07/02/language-server/&name=Monaco-Editor折腾记--LanguageServerProtocol&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/Aaaaash/2018/07/02/language-server/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/Aaaaash/2018/07/02/language-server/&text=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/Aaaaash/2018/07/02/language-server/&is_video=false&description=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--LanguageServerProtocol&body=Check out this article: https://github.com/Aaaaash/2018/07/02/language-server/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/Aaaaash/2018/07/02/language-server/&title=Monaco-Editor折腾记--LanguageServerProtocol"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/Aaaaash/2018/07/02/language-server/&name=Monaco-Editor折腾记--LanguageServerProtocol&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

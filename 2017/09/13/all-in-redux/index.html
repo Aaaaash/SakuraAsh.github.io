@@ -10,7 +10,7 @@
 <meta name="keywords" content="Redux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redux源码解析">
-<meta property="og:url" content="https://github.com/SakuraAsh/2017/09/13/all-in-redux/index.html">
+<meta property="og:url" content="https://github.com/Aaaaash/2017/09/13/all-in-redux/index.html">
 <meta property="og:site_name" content="SakuraAsh&#39;s blog">
 <meta property="og:description" content="createStore这里是源码createStore.js createStore函数是redux状态管理流程的入口，通过调用createStore(reducer, preloadState)之后可以创建一个store对象,store包含四个方法(不包含调用后产生的ubsubscribe)  getState subscribe  dispatch replaceReducer  首先初始化内">
 <meta property="og:updated_time" content="2018-03-25T09:38:15.343Z">
@@ -80,16 +80,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2017/09/13/all-in-redux/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&text=Redux源码解析"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&is_video=false&description=Redux源码解析"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Redux源码解析&body=Check out this article: https://github.com/SakuraAsh/2017/09/13/all-in-redux/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&name=Redux源码解析&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/Aaaaash/2017/09/13/all-in-redux/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&text=Redux源码解析"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&is_video=false&description=Redux源码解析"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Redux源码解析&body=Check out this article: https://github.com/Aaaaash/2017/09/13/all-in-redux/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&name=Redux源码解析&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -208,16 +208,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2017/09/13/all-in-redux/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&text=Redux源码解析"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&is_video=false&description=Redux源码解析"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Redux源码解析&body=Check out this article: https://github.com/SakuraAsh/2017/09/13/all-in-redux/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2017/09/13/all-in-redux/&name=Redux源码解析&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/Aaaaash/2017/09/13/all-in-redux/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&text=Redux源码解析"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&is_video=false&description=Redux源码解析"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Redux源码解析&body=Check out this article: https://github.com/Aaaaash/2017/09/13/all-in-redux/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&title=Redux源码解析"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/Aaaaash/2017/09/13/all-in-redux/&name=Redux源码解析&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

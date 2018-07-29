@@ -10,15 +10,15 @@
 <meta name="keywords" content="monaco, 协作, ot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Monaco-Editor折腾记--多人协同编辑的实现">
-<meta property="og:url" content="https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/index.html">
+<meta property="og:url" content="https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/index.html">
 <meta property="og:site_name" content="SakuraAsh&#39;s blog">
 <meta property="og:description" content="本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新  Monaco-Editor简介monaco-editor是微软开源的一款web端文本编辑器，也就是vscode内置的编辑器，扩展性很强，原生暴露了很多用于代码提示、高亮显示等API  仅为核心编辑器部分，不包含vscode的插件系统、文件数及terminal  基本用法mon">
-<meta property="og:image" content="https://github.com/SakuraAsh/2018/05/01/images/ot.png">
+<meta property="og:image" content="https://github.com/Aaaaash/2018/05/01/images/ot.png">
 <meta property="og:updated_time" content="2018-07-01T02:09:31.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Monaco-Editor折腾记--多人协同编辑的实现">
 <meta name="twitter:description" content="本系列文章为Monaco-Editor编辑器折腾、踩坑记录，涉及到协同编辑、代码提示、智能感知等功能的实现，不定期更新  Monaco-Editor简介monaco-editor是微软开源的一款web端文本编辑器，也就是vscode内置的编辑器，扩展性很强，原生暴露了很多用于代码提示、高亮显示等API  仅为核心编辑器部分，不包含vscode的插件系统、文件数及terminal  基本用法mon">
-<meta name="twitter:image" content="https://github.com/SakuraAsh/2018/05/01/images/ot.png">
+<meta name="twitter:image" content="https://github.com/Aaaaash/2018/05/01/images/ot.png">
     
     
         
@@ -84,16 +84,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&text=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&is_video=false&description=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--多人协同编辑的实现&body=Check out this article: https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&name=Monaco-Editor折腾记--多人协同编辑的实现&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&text=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&is_video=false&description=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--多人协同编辑的实现&body=Check out this article: https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&name=Monaco-Editor折腾记--多人协同编辑的实现&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -238,16 +238,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&text=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&is_video=false&description=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--多人协同编辑的实现&body=Check out this article: https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/SakuraAsh/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&name=Monaco-Editor折腾记--多人协同编辑的实现&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&text=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&is_video=false&description=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Monaco-Editor折腾记--多人协同编辑的实现&body=Check out this article: https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&title=Monaco-Editor折腾记--多人协同编辑的实现"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/Aaaaash/2018/05/01/Monaco-Editor折腾记-多人协同编辑的实现/&name=Monaco-Editor折腾记--多人协同编辑的实现&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
